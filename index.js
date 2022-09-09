@@ -100,13 +100,27 @@ function showStudyLists(username){
     const listButton = document.createElement('button');
     listButton.className = 'listButton'; 
     listButton.textContent = `${list}`;
+    listButton.addEventListener('click', (list) => {
+      document.getElementById('game').innerHTML = ''
+      playGame(list)
+    })
     document.getElementById('studyListContainer').appendChild(listButton);
   }
   const listButton = document.createElement('button');
   listButton.className = 'listButton'; 
   listButton.textContent = `Create new`
   document.getElementById('studyListContainer').appendChild(listButton);
+  listButton.addEventListener('click', () => {
+    document.getElementById('game').innerHTML = ''
+    createList(username)
+  })
+}
 
+function createList(username){
+  
+}
+
+function playGame(list){
 
 }
 
