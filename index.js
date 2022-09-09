@@ -69,3 +69,21 @@ function handleLogIn(username, password){
     alert('This username and password combination is not recognized. Please try again or create an account.')
   }
 }
+
+const form = document.querySelector('form');
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const username = document.getElementById('username').value.toLowerCase();
+  const password = document.getElementById('password').value;
+  form.reset()
+
+  if (hasAccount === false){
+    console.log('creating new user')
+    handleCreateUser(username, password)
+
+  }else{
+    console.log('attempting to log in')
+    handleLogIn(username, password)
+  }
+})
