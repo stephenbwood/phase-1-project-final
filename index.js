@@ -41,3 +41,21 @@ function handleCreateUser(username, password){
     alert('Username already exists. Please try another name or log in if you already have an account')
   }
 }
+
+function handleLogInForm(){
+  if (hasAccount === false){
+    document.getElementById('signInHeading').textContent = 'Sign in';
+    hasAccount=true;
+    haveAccountLink.textContent = 'No account? Sign up here!';
+  }else{
+    document.getElementById('signInHeading').textContent = 'Create an account';
+    hasAccount=false;
+    haveAccountLink.textContent = 'Already have an account? Sign in here.';
+  } 
+}
+
+const haveAccountLink = document.getElementById('haveAccount')
+
+haveAccountLink.addEventListener('click', () => {
+  handleLogInForm();
+});
