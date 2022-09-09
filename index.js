@@ -59,3 +59,13 @@ const haveAccountLink = document.getElementById('haveAccount')
 haveAccountLink.addEventListener('click', () => {
   handleLogInForm();
 });
+
+function handleLogIn(username, password){
+  if (users[`${username}`] !== undefined && users[`${username}`].password === password){
+    isLoggedIn = true;
+    loggedInUser = username;
+    document.getElementById('createAccount').style.display = 'none'
+  }else{
+    alert('This username and password combination is not recognized. Please try again or create an account.')
+  }
+}
