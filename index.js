@@ -4,6 +4,8 @@ let isLoggedIn = false;
 let loggedInUser
 let points = 0
 
+const gameWindow = document.getElementById('game')
+
 // Create an object stored locally with user information to use for logging in, tracking points, and updating study lists
 fetch(`http://localhost:3000/users`, {
         method: "GET",
@@ -109,7 +111,7 @@ function showStudyLists(username){
     listButton.className = 'listButton'; 
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', (list) => {
-      document.getElementById('game').innerHTML = ''
+      gameWindow.innerHTML = ''
       playGame(list)
     })
     document.getElementById('studyListContainer').appendChild(listButton);
@@ -119,7 +121,7 @@ function showStudyLists(username){
   listButton.textContent = `Create new`
   document.getElementById('studyListContainer').appendChild(listButton);
   listButton.addEventListener('click', () => {
-    document.getElementById('game').innerHTML = ''
+    gameWindow.innerHTML = ''
     document.getElementById('newListForm').style.display = 'contents'
   })
 }
@@ -145,6 +147,31 @@ submitNewListButton.addEventListener('submit', e => {
 
 
 function playGame(list){
+  const unplayed = [...list]
+
+  while (unplayed.length > 0) {
+    
+  }
+}
+
+function createGameCard(character){
+  gameWindow.innerHTML = ''
+
+  const card = document.createElement('div')
+  card.className = 'card'
+
+  const target = document.createElement('h1')
+  target.className = 'target'
+  target.textContent = character
+  card.appendChild(target)
+
+  for (i=0; i<4; i++){
+    const choice = document.createElement('button')
+    choice.className = 'choice'
+    choice.id = `choice${i}`
+  }
+
+  gameWindow.appendChild(card)
 
 }
 
