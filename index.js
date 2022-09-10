@@ -117,7 +117,47 @@ function showStudyLists(username){
 }
 
 function createList(username){
-  
+  const createListForm = document.createElement('form');
+
+  const listName = document.createElement('input');
+  listName.id = 'listName';
+  listName.name = 'listName';
+  listName.placeholder = 'Name of list';
+  createListForm.appendChild(listName);
+
+  const br = document.createElement('br')
+  createListForm.appendChild(br)
+
+  const listItems = document.createElement('textArea');
+  listItems.id = 'listItems';
+  listItems.name = 'listItems';
+  listItems.placeholder = 'List characters to study';
+  createListForm.appendChild(listItems);
+
+  const br2 = document.createElement('br')
+  createListForm.appendChild(br2)
+
+  const cancel = document.createElement('button')
+  cancel.id = 'cancel';
+  cancel.textContent = 'Cancel'
+  createListForm.appendChild(cancel);
+
+  const submit = document.createElement('input')
+  submit.type = 'submit'
+  submit.id = 'submit';
+  submit.textContent = 'Submit'
+  createListForm.appendChild(submit);
+
+  submit.addEventListener('submit', (e) =>{
+    e.preventDefault();
+    const newList = [];
+    const newListName = listName.value;
+    const newListItems = listItems.value;
+    
+
+  })
+
+  document.getElementById('game').appendChild(createListForm)
 }
 
 function playGame(list){
