@@ -4,6 +4,7 @@ let isLoggedIn = false;
 let loggedInUser
 let points = 0
 
+// Create an object stored locally with user information to use for logging in, tracking points, and updating study lists
 fetch(`http://localhost:3000/users`, {
         method: "GET",
         headers: {
@@ -23,8 +24,11 @@ fetch(`http://localhost:3000/users`, {
   }
 })
 
+//create user, checking if username already exists. Adds to db.json
 function handleCreateUser(username, password){
-  if (users[`${username}`] === undefined){
+  if (username === '' || password === '') {
+    alert('Please choose a username and password to continue.')
+  }else if (users[`${username}`] === undefined){
     fetch(`http://localhost:3000/users`, {
         method: "POST",
         headers: {
@@ -47,6 +51,7 @@ function handleCreateUser(username, password){
   }
 }
 
+//Changes form between create account and log in
 function handleLogInForm(){
   if (hasAccount === false){
     document.getElementById('signInHeading').textContent = 'Sign in';
@@ -65,6 +70,7 @@ haveAccountLink.addEventListener('click', () => {
   handleLogInForm();
 });
 
+//checks username password combo. On successful login removes login form, and updates welcome with username and points
 function handleLogIn(username, password){
   if (users[`${username}`] !== undefined && users[`${username}`].password === password){
     isLoggedIn = true;
@@ -78,13 +84,14 @@ function handleLogIn(username, password){
   }
 }
 
+//implements functions checking login info on form submit
 const form = document.querySelector('form');
 
 form.addEventListener('submit', e => {
   e.preventDefault();
   const username = document.getElementById('username').value.toLowerCase();
   const password = document.getElementById('password').value;
-  form.reset()
+
 
   if (hasAccount === false){
     handleCreateUser(username, password)
@@ -95,6 +102,7 @@ form.addEventListener('submit', e => {
   }
 })
 
+//creates buttons listing available study lists for the user
 function showStudyLists(username){
   for (const list in users[username].studyLists){
     const listButton = document.createElement('button');
@@ -112,65 +120,29 @@ function showStudyLists(username){
   document.getElementById('studyListContainer').appendChild(listButton);
   listButton.addEventListener('click', () => {
     document.getElementById('game').innerHTML = ''
-    createList(username)
+    document.getElementById('newListForm').style.display = 'contents'
   })
 }
 
-function createList(username){
-  const createListForm = document.createElement('form');
+//creates new list on submit updating local user object and db.json object
+const submitNewListButton = document.getElementById('submitNewList')
 
-  const listName = document.createElement('input');
-  listName.id = 'listName';
-  listName.name = 'listName';
-  listName.placeholder = 'Name of list';
-  createListForm.appendChild(listName);
+submitNewListButton.addEventListener('submit', e => {
+  e.preventDefault();
+  const newList = [];
+  const newListName = document.getElementById('listName').value;
+  const newListItems = document.getElementById('listItems').value.replaceAll(',', '').replaceAll(' ', '');
 
-  const br = document.createElement('br')
-  createListForm.appendChild(br)
+  for (const character of newListItems){
 
-  const listItems = document.createElement('textArea');
-  listItems.id = 'listItems';
-  listItems.name = 'listItems';
-  listItems.placeholder = 'List characters to study';
-  createListForm.appendChild(listItems);
+    newList.push(character)
+  }
 
-  const br2 = document.createElement('br')
-  createListForm.appendChild(br2)
+  users[loggedInUser].studyLists[newListName] = newList
+  updateDb(loggedInUser);
+  document.getElementById('newListForm').style.display = 'none'
+});
 
-  const cancel = document.createElement('button')
-  cancel.id = 'cancel';
-  cancel.textContent = 'Cancel'
-  createListForm.appendChild(cancel);
-
-  const submit = document.createElement('input')
-  submit.addEventListener('submit', (e) =>{
-      e.preventDefault();
-      const newList = [];
-      const newListName = listName.value;
-      debugger;
-      const newListItems = listItems.value.replaceAll(',', '').replaceAll(' ', '');
-      debugger;
-      const itemArray = []
-      debugger;
-
-      for (const character of newListItems){
-        debugger;
-        itemArray.push(character)
-        debugger;
-      }
-
-      users[username].studyLists[newListName] = itemArray
-      debugger;
-    });
-
-  submit.type = 'submit'
-  submit.id = 'submit';
-  submit.textContent = 'Submit'
-  
-  createListForm.appendChild(submit);
-
-  document.getElementById('game').appendChild(createListForm)
-}
 
 function playGame(list){
 
@@ -187,6 +159,19 @@ function updatePoints(username, pointsEarned){
         body: JSON.stringify({
           "points": points,
         })
+  })
+  .then(res => res.json())
+  .then(data => console.log(data))
+}
+
+function updateDb(username){
+  fetch(`http://localhost:3000/users/${users[username].id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(users[username])
   })
   .then(res => res.json())
   .then(data => console.log(data))

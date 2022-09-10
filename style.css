@@ -27,3 +27,8 @@ div#userInfo{
 h3, h4{
   margin: 5px;
 }
+
+form#newListForm{
+  display: none;
+  color: black;
+}
