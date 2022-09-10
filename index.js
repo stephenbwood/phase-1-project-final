@@ -143,19 +143,31 @@ function createList(username){
   createListForm.appendChild(cancel);
 
   const submit = document.createElement('input')
+  submit.addEventListener('submit', (e) =>{
+      e.preventDefault();
+      const newList = [];
+      const newListName = listName.value;
+      debugger;
+      const newListItems = listItems.value.replaceAll(',', '').replaceAll(' ', '');
+      debugger;
+      const itemArray = []
+      debugger;
+
+      for (const character of newListItems){
+        debugger;
+        itemArray.push(character)
+        debugger;
+      }
+
+      users[username].studyLists[newListName] = itemArray
+      debugger;
+    });
+
   submit.type = 'submit'
   submit.id = 'submit';
   submit.textContent = 'Submit'
+  
   createListForm.appendChild(submit);
-
-  submit.addEventListener('submit', (e) =>{
-    e.preventDefault();
-    const newList = [];
-    const newListName = listName.value;
-    const newListItems = listItems.value;
-    
-
-  })
 
   document.getElementById('game').appendChild(createListForm)
 }
