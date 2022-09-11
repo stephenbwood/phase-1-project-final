@@ -32,3 +32,9 @@ form#newListForm{
   display: none;
   color: black;
 }
+
+.card{
+  width: 500px;
+  outline: 10px auto black;
+  box-shadow: inset;
+}
