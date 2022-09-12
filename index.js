@@ -30,6 +30,8 @@ fetch(`http://localhost:3000/users`, {
   }
 })
 
+
+
 //create user, checking if username already exists. Adds to db.json
 function handleCreateUser(username, password){
   if (username === '' || password === '') {
@@ -94,7 +96,6 @@ function handleLogIn(username, password){
 const form = document.querySelector('form');
 
 form.addEventListener('submit', e => {
-  e.preventDefault();
   const username = document.getElementById('username').value.toLowerCase();
   const password = document.getElementById('password').value;
 
@@ -103,6 +104,7 @@ form.addEventListener('submit', e => {
     handleCreateUser(username, password)
 
   }else{
+    e.preventDefault()
     handleLogIn(username, password)
     showStudyLists(username)
   }
@@ -124,6 +126,7 @@ function showStudyLists(username){
       .then(res => res.json())
       .then(data => readings.push(data.readings.mandarinpinyin[0]))
       }
+      console.log(readings)
       playGame()
     })
     document.getElementById('studyListContainer').appendChild(listButton);
@@ -134,6 +137,9 @@ function showStudyLists(username){
   document.getElementById('studyListContainer').appendChild(listButton);
   listButton.addEventListener('click', () => {
     gameWindow.innerHTML = ''
+    correct = 0
+    incorrect = 0
+    points = 0
     document.getElementById('newListForm').style.display = 'contents'
   })
 }
@@ -164,21 +170,44 @@ function playGame(){
   if (unplayed.length > 0) {
     let randomNum = Math.floor(Math.random() * unplayed.length)
     const currentCharacter = unplayed[randomNum]
-    const correctAnswer = readings[randomNum]
+    console.log(readings)
 
-    createGameCard(currentCharacter)
+    createGameCard(currentCharacter, randomNum)
 
 
     unplayed.splice(randomNum, 1)
     readings.splice(randomNum, 1)
+  }else{
+    document.getElementById('card').innerHTML = ''
+    const correctAnswers = document.createElement('h2')
+    correctAnswers.textContent = `Correct: ${correct}`
+    const incorrectAnswers = document.createElement('h2')
+    incorrectAnswers.textContent = `Incorrect: ${incorrect}`
+    const pointsEarned = document.createElement('h2')
+    pointsEarned.textContent = `You earned: ${points} points`
+
+    document.getElementById('card').appendChild(correctAnswers)
+    document.getElementById('card').appendChild(incorrectAnswers)
+    document.getElementById('card').appendChild(pointsEarned)
   }
 }
 
-function createGameCard(character){
+function createGameCard(character, num){
   gameWindow.innerHTML = ''
+  const answers = []
+  answers.push(num)
+  while(answers.length !== 4){
+    let randNum = Math.floor(Math.random() * unplayed.length)
+    if (answers.indexOf(randNum) === -1 && randNum % 2 ===0){
+      answers.push(randNum)
+    }else if (answers.indexOf(randNum) === -1 && randNum % 2 ===1){
+      answers.unshift(randNum)
+    }
+  }
+
 
   const card = document.createElement('div')
-  card.className = 'card'
+  card.id = 'card'
 
   const target = document.createElement('h1')
   target.className = 'target'
@@ -189,7 +218,39 @@ function createGameCard(character){
     const choice = document.createElement('button')
     choice.className = 'choice'
     choice.id = `choice${i}`
+    console.log(readings[0])
+    console.log(answers)
+    console.log(i)
+    console.log(`${readings[answers[i]]}`)
+    choice.innerText = `${readings[answers[i]]}`
+  
+    choice.addEventListener('click', ()=>{
+      const correctness = document.getElementById('correctness')
+      if (choice.id === num){
+        correctness.textContent = "Correct"
+        correctness.style.color = 'green'
+      }else{
+        correctness.textContent = "Incorrect"
+        correctness.style.color = 'red'
+      }
+      const nextButton = document.createElement('button')
+      nextButton.id = 'nextButton'
+      nextButton.textContent = 'Next'
+      nextButton.addEventListener('click', () => {
+        correctness.textContent = ''
+        playGame()
+      })
+
+      card.appendChild(nextButton)
+    })
+
+    card.appendChild(choice)
   }
+
+  const remaining = document.createElement('p')
+  remaining.className = 'remaining'
+  remaining.textContent = `${unplayed.length} cards remaining`
+  card.appendChild(remaining)
 
   gameWindow.appendChild(card)
 
@@ -197,18 +258,14 @@ function createGameCard(character){
 
 function updatePoints(username, pointsEarned){
   points += pointsEarned;
-  fetch(`http://localhost:3000/users/${users[username].id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          "points": points,
-        })
-  })
-  .then(res => res.json())
-  .then(data => console.log(data))
+  users[username].points += pointsEarned
+
+  updateDb(username)
+  updateLeaderboard()
+
+  document.getElementById('points').textContent = `You have ${users[username].points} points`
+
+  points = 0
 }
 
 function updateDb(username){
@@ -223,41 +280,33 @@ function updateDb(username){
   .then(res => res.json())
   .then(data => console.log(data))
 }
+ 
+function updateLeaderboard(){
+  const userArray = [...Object.keys(users)]
+  const scoreOrder = []
+
+  scoreOrder.push(userArray[0])
+
+  for (i = 1; i < userArray.length; i++){
+    
+    for(j = 0; j < scoreOrder.length; j++){
+      
+      if (users[userArray[i]].points >= users[scoreOrder[j]].points){
+        scoreOrder.splice(j, 0, userArray[i])
+        break
+      }else if (users[userArray[i]].points < users[scoreOrder[scoreOrder.length-1]].points){
+        scoreOrder.push(userArray[i])
+      }
+    }
+
+  }
+  for (const person of scoreOrder){
+    const entry = document.createElement('li');
+    entry.className = 'leaderboardEntry';
+    entry.textContent = `${users[person].points}..........${person}`
+
+    document.getElementById('leaderboard').appendChild(entry)
+  }
+}
 
 // character pronunciation: https://api.ctext.org/getcharacter?char= + character
-
-//  {
-//   "char": "仁",
-//   "radical": "人",
-//   "radicalstrokes": "2",
-//   "readings": {
-//     "cantonese": [
-//       "jan4"
-//     ],
-//     "mandarinpinyin": [
-//       "rén"
-//     ],
-//     "mandarinzhuyin": [
-//       "ㄖㄣˊ"
-//     ],
-//     "tang": [
-//       "njin"
-//     ]
-//   },
-//   "totalstrokes": "4",
-//   "url": "https://ctext.org/dictionary.pl?if=en&char=仁",
-//   "variants": [
-//     {
-//       "character": "忈",
-//       "relation": "kZVariant"
-//     },
-//     {
-//       "character": "忎",
-//       "relation": "kSemanticVariant"
-//     },
-//     {
-//       "character": "𡰥",
-//       "relation": "kSemanticVariant"
-//     }
-//   ]
-// }

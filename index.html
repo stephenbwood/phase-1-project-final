@@ -24,51 +24,27 @@
         我们一起学中文吧！</h1>
       <h2>Choose a list to study</h2>
       <div id="studyListContainer">
-
       </div>
-      <div>
-        <form id="newListForm">
-          <h3>Enter list info</h3>
-          <input id="listName" name="listName" placeholder="Name of list"><br>
-          <textarea id="listItems" name="listItems" placeholder="List characters to study"></textarea><br>
-          <button id="cancel">Cancel</button>
-          <input id="submitNewList" type="submit">
-        </form>
-      </div>
-      <div id="game">
-        
-        <!-- const createListForm = document.createElement('form');
-
-        const listName = document.createElement('input');
-        listName.id = 'listName';
-        listName.name = 'listName';
-        listName.placeholder = 'Name of list';
-        createListForm.appendChild(listName);
-      
-        const br = document.createElement('br')
-        createListForm.appendChild(br)
-      
-        const listItems = document.createElement('textArea');
-        listItems.id = 'listItems';
-        listItems.name = 'listItems';
-        listItems.placeholder = 'List characters to study';
-        createListForm.appendChild(listItems);
-      
-        const br2 = document.createElement('br')
-        createListForm.appendChild(br2)
-      
-        const cancel = document.createElement('button')
-        cancel.id = 'cancel';
-        cancel.textContent = 'Cancel'
-      
-        cancel.addEventListener('click', () => document.getElementById('game').innerHTML = '')
-      
-        createListForm.appendChild(cancel);
-      
-        const submit = document.createElement('input')
-        submit.type = 'submit'
-        submit.id = 'submit';
-        submit.textContent = 'Submit' -->
+      <div id="block">
+        <div id = 'block1'>
+          <div>
+            <form id="newListForm">
+              <h3>Enter list info</h3>
+              <input id="listName" name="listName" placeholder="Name of list"><br>
+              <textarea id="listItems" name="listItems" placeholder="List characters to study"></textarea><br>
+              <button id="cancel">Cancel</button>
+              <input id="submitNewList" type="submit">
+            </form>
+          </div>
+          <div id="game">
+          </div>
+          <h2 id="correctness"></h2>
+        </div>
+        <div id="block2">
+          <h2>Leaderboard</h2>
+          <ol id="leaderboard">
+          </ol>
+        </div>
       </div>
     </div>
     <script src="/index.js"></script>
