@@ -3,6 +3,10 @@ let hasAccount = false;
 let isLoggedIn = false;
 let loggedInUser
 let points = 0
+let unplayed = []
+let readings = []
+let correct = 0
+let incorrect = 0
 
 const gameWindow = document.getElementById('game')
 
@@ -112,7 +116,15 @@ function showStudyLists(username){
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', () => {
       gameWindow.innerHTML = ''
-      playGame(users[username].studyLists[list])
+      unplayed = [...users[username].studyLists[list]]
+      readings = []
+
+      for (const item of unplayed){
+      fetch(`https://api.ctext.org/getcharacter?char=${item}`)
+      .then(res => res.json())
+      .then(data => readings.push(data.readings.mandarinpinyin[0]))
+      }
+      playGame()
     })
     document.getElementById('studyListContainer').appendChild(listButton);
   }
@@ -127,9 +139,8 @@ function showStudyLists(username){
 }
 
 //creates new list on submit updating local user object and db.json object
-const submitNewListButton = document.getElementById('submitNewList')
 
-submitNewListButton.addEventListener('submit', e => {
+document.getElementById('newListForm').addEventListener('submit', e => {
   e.preventDefault();
   const newList = [];
   const newListName = document.getElementById('listName').value;
@@ -143,24 +154,16 @@ submitNewListButton.addEventListener('submit', e => {
   users[loggedInUser].studyLists[newListName] = newList
   updateDb(loggedInUser);
   document.getElementById('newListForm').style.display = 'none'
+  document.getElementById('studyListContainer').innerHTML = ''
+  showStudyLists(loggedInUser)
 });
 
 
-function playGame(list){
-  debugger;
-  const unplayed = [...list]
-  const readings = []
-
+function playGame(){
   
-  for (const item of unplayed){
-    fetch(`https://api.ctext.org/getcharacter?char=${item}`)
-    .then(res => res.json())
-    .then(data => readings.push(data.readings.mandarinpinyin[0]))
-  }
-
   if (unplayed.length > 0) {
     let randomNum = Math.floor(Math.random() * unplayed.length)
-    const currentCharacter = list[randomNum]
+    const currentCharacter = unplayed[randomNum]
     const correctAnswer = readings[randomNum]
 
     createGameCard(currentCharacter)
@@ -168,7 +171,6 @@ function playGame(list){
 
     unplayed.splice(randomNum, 1)
     readings.splice(randomNum, 1)
-    console.log(readings)
   }
 }
 
