@@ -7,6 +7,7 @@ let unplayed = []
 let readings = []
 let correct = 0
 let incorrect = 0
+let ready = false
 
 const gameWindow = document.getElementById('game')
 
@@ -30,7 +31,9 @@ fetch(`http://localhost:3000/users`, {
   }
 })
 
-
+function logReadings(){
+  console.log(readings)
+}
 
 //create user, checking if username already exists. Adds to db.json
 function handleCreateUser(username, password){
@@ -109,7 +112,7 @@ form.addEventListener('submit', e => {
     showStudyLists(username)
   }
 })
-
+let play = false
 //creates buttons listing available study lists for the user
 function showStudyLists(username){
   for (const list in users[username].studyLists){
@@ -117,17 +120,16 @@ function showStudyLists(username){
     listButton.className = 'listButton'; 
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', () => {
-      gameWindow.innerHTML = ''
-      unplayed = [...users[username].studyLists[list]]
-      readings = []
-
-      for (const item of unplayed){
-      fetch(`https://api.ctext.org/getcharacter?char=${item}`)
-      .then(res => res.json())
-      .then(data => readings.push(data.readings.mandarinpinyin[0]))
+      setUpReadings(list, username)
+      play = false
+      while (play === false){
+        if (ready === false){
+          console.log('waiting')
+        }else{
+          playGame()
+          play === true
+        }
       }
-      console.log(readings)
-      playGame()
     })
     document.getElementById('studyListContainer').appendChild(listButton);
   }
@@ -142,6 +144,21 @@ function showStudyLists(username){
     points = 0
     document.getElementById('newListForm').style.display = 'contents'
   })
+}
+
+function setUpReadings(list, username){
+  ready = false
+  gameWindow.innerHTML = ''
+      unplayed = [...users[username].studyLists[list]]
+
+      for (const item of unplayed){
+      fetch(`https://api.ctext.org/getcharacter?char=${item}`)
+      .then(res => res.json())
+      .then(data => {
+        readings.push(data.readings.mandarinpinyin[0]);
+        ready = true
+      })
+      }
 }
 
 //creates new list on submit updating local user object and db.json object
@@ -166,11 +183,11 @@ document.getElementById('newListForm').addEventListener('submit', e => {
 
 
 function playGame(){
-  
+  debugger;
+  gameWindow.innerHTML = ''
   if (unplayed.length > 0) {
     let randomNum = Math.floor(Math.random() * unplayed.length)
     const currentCharacter = unplayed[randomNum]
-    console.log(readings)
 
     createGameCard(currentCharacter, randomNum)
 
@@ -193,6 +210,7 @@ function playGame(){
 }
 
 function createGameCard(character, num){
+  
   gameWindow.innerHTML = ''
   const answers = []
   answers.push(num)
@@ -218,11 +236,9 @@ function createGameCard(character, num){
     const choice = document.createElement('button')
     choice.className = 'choice'
     choice.id = `choice${i}`
-    console.log(readings[0])
-    console.log(answers)
-    console.log(i)
-    console.log(`${readings[answers[i]]}`)
-    choice.innerText = `${readings[answers[i]]}`
+
+    choice.textContent = `${readings[answers[i]]}`
+
   
     choice.addEventListener('click', ()=>{
       const correctness = document.getElementById('correctness')
@@ -236,8 +252,9 @@ function createGameCard(character, num){
       const nextButton = document.createElement('button')
       nextButton.id = 'nextButton'
       nextButton.textContent = 'Next'
-      nextButton.addEventListener('click', () => {
-        correctness.textContent = ''
+      nextButton.addEventListener('click', ()=>{
+        correctness.innerHTML = '';
+        gameWindow.innerHTML = ''
         playGame()
       })
 
@@ -308,5 +325,7 @@ function updateLeaderboard(){
     document.getElementById('leaderboard').appendChild(entry)
   }
 }
+
+setTimeout(updateLeaderboard, 100)
 
 // character pronunciation: https://api.ctext.org/getcharacter?char= + character
