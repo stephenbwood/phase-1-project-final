@@ -1,5 +1,5 @@
 const users = {};
-let hasAccount = false;
+let hasAccount = true;
 let isLoggedIn = false;
 let loggedInUser
 let points = 0
@@ -8,6 +8,8 @@ let readings = []
 let correct = 0
 let incorrect = 0
 let ready = false
+let position = []
+let currentListName
 
 const gameWindow = document.getElementById('game')
 
@@ -31,9 +33,6 @@ fetch(`http://localhost:3000/users`, {
   }
 })
 
-function logReadings(){
-  console.log(readings)
-}
 
 //create user, checking if username already exists. Adds to db.json
 function handleCreateUser(username, password){
@@ -51,7 +50,800 @@ function handleCreateUser(username, password){
           "points": 0,
           "password": password,
           "studyLists": {
-            "grade 1": ["一", "人", "下", "上", "大", "子", "小", "不", "中", "天", "心", "水", "出", "生", "地", "如", "年", "有", "自", "事", "来", "长", "为", "面", "家", "气", "起", "高", "动", "国", "得", "开", "道", "学", "以", "可", "用", "多", "好", "和", "所", "后", "是", "时", "着", "过", "说", "了", "去", "在", "没", "到", "要", "能", "做", "常", "就", "样", "个", "又", "他", "的", "这", "也", "很", "外", "同", "成", "作", "发", "会", "知", "对", "点", "看", "等", "想", "我", "候", "都", "最", "花", "那", "还", "么", "你", "三", "分", "方", "日", "打", "老", "物", "书", "然", "二", "而", "定", "果", "前", "间", "当", "十", "叫", "因", "从", "现", "像", "种", "里", "们", "意", "回", "些", "力", "公", "手", "西", "车", "明", "情", "头", "见", "走", "东", "经", "话", "乐", "比", "把", "体", "两", "快", "正", "才", "太", "吃", "真", "给", "第", "觉", "只", "每", "山", "白", "儿", "声", "本", "美", "带", "进", "位", "使", "之", "行", "法", "次", "弟", "写", "跟", "色", "电", "字", "于", "表", "爱", "问", "钱", "边", "听", "再", "完", "几", "但", "名", "身", "风", "月", "全", "放", "路", "别", "己", "相", "什", "早", "文", "合", "重", "理", "喜", "或", "工", "四", "被", "妈", "爸", "部"],
+            "grade 1": {
+              "0": [
+                "一",
+                "yī"
+              ],
+              "1": [
+                "人",
+                "rén"
+              ],
+              "2": [
+                "下",
+                "xià"
+              ],
+              "3": [
+                "上",
+                "shàng"
+              ],
+              "4": [
+                "大",
+                "dà"
+              ],
+              "5": [
+                "子",
+                "zǐ"
+              ],
+              "6": [
+                "小",
+                "xiǎo"
+              ],
+              "7": [
+                "不",
+                "bù"
+              ],
+              "8": [
+                "中",
+                "zhōng"
+              ],
+              "9": [
+                "天",
+                "tiān"
+              ],
+              "10": [
+                "心",
+                "xīn"
+              ],
+              "11": [
+                "水",
+                "shuǐ"
+              ],
+              "12": [
+                "出",
+                "chū"
+              ],
+              "13": [
+                "生",
+                "shēng"
+              ],
+              "14": [
+                "地",
+                "dì"
+              ],
+              "15": [
+                "如",
+                "rú"
+              ],
+              "16": [
+                "年",
+                "nián"
+              ],
+              "17": [
+                "有",
+                "yǒu"
+              ],
+              "18": [
+                "自",
+                "zì"
+              ],
+              "19": [
+                "事",
+                "shì"
+              ],
+              "20": [
+                "来",
+                "lái"
+              ],
+              "21": [
+                "长",
+                "cháng"
+              ],
+              "22": [
+                "为",
+                "wèi"
+              ],
+              "23": [
+                "面",
+                "miàn"
+              ],
+              "24": [
+                "家",
+                "jiā"
+              ],
+              "25": [
+                "气",
+                "qì"
+              ],
+              "26": [
+                "起",
+                "qǐ"
+              ],
+              "27": [
+                "高",
+                "gāo"
+              ],
+              "28": [
+                "动",
+                "dòng"
+              ],
+              "29": [
+                "国",
+                "guó"
+              ],
+              "30": [
+                "得",
+                "dé"
+              ],
+              "31": [
+                "开",
+                "kāi"
+              ],
+              "32": [
+                "道",
+                "dào"
+              ],
+              "33": [
+                "学",
+                "xué"
+              ],
+              "34": [
+                "以",
+                "yǐ"
+              ],
+              "35": [
+                "可",
+                "kě"
+              ],
+              "36": [
+                "用",
+                "yòng"
+              ],
+              "37": [
+                "多",
+                "duō"
+              ],
+              "38": [
+                "好",
+                "hǎo"
+              ],
+              "39": [
+                "和",
+                "hé"
+              ],
+              "40": [
+                "所",
+                "suǒ"
+              ],
+              "41": [
+                "后",
+                "hòu"
+              ],
+              "42": [
+                "是",
+                "shì"
+              ],
+              "43": [
+                "时",
+                "shí"
+              ],
+              "44": [
+                "着",
+                "zháo"
+              ],
+              "45": [
+                "过",
+                "guò"
+              ],
+              "46": [
+                "说",
+                "shuō"
+              ],
+              "47": [
+                "了",
+                "le"
+              ],
+              "48": [
+                "去",
+                "qù"
+              ],
+              "49": [
+                "在",
+                "zài"
+              ],
+              "50": [
+                "没",
+                "méi"
+              ],
+              "51": [
+                "到",
+                "dào"
+              ],
+              "52": [
+                "要",
+                "yào"
+              ],
+              "53": [
+                "能",
+                "néng"
+              ],
+              "54": [
+                "做",
+                "zuò"
+              ],
+              "55": [
+                "常",
+                "cháng"
+              ],
+              "56": [
+                "就",
+                "jiù"
+              ],
+              "57": [
+                "样",
+                "yáng"
+              ],
+              "58": [
+                "个",
+                "gè"
+              ],
+              "59": [
+                "又",
+                "yòu"
+              ],
+              "60": [
+                "他",
+                "tā"
+              ],
+              "61": [
+                "的",
+                "de"
+              ],
+              "62": [
+                "这",
+                "zhè"
+              ],
+              "63": [
+                "也",
+                "yě"
+              ],
+              "64": [
+                "很",
+                "hěn"
+              ],
+              "65": [
+                "外",
+                "wài"
+              ],
+              "66": [
+                "同",
+                "tóng"
+              ],
+              "67": [
+                "成",
+                "chéng"
+              ],
+              "68": [
+                "作",
+                "zuò"
+              ],
+              "69": [
+                "发",
+                "fā"
+              ],
+              "70": [
+                "会",
+                "huì"
+              ],
+              "71": [
+                "知",
+                "zhī"
+              ],
+              "72": [
+                "对",
+                "duì"
+              ],
+              "73": [
+                "点",
+                "diǎn"
+              ],
+              "74": [
+                "看",
+                "kàn"
+              ],
+              "75": [
+                "等",
+                "děng"
+              ],
+              "76": [
+                "想",
+                "xiǎng"
+              ],
+              "77": [
+                "我",
+                "wǒ"
+              ],
+              "78": [
+                "候",
+                "hòu"
+              ],
+              "79": [
+                "都",
+                "dū"
+              ],
+              "80": [
+                "最",
+                "zuì"
+              ],
+              "81": [
+                "花",
+                "huā"
+              ],
+              "82": [
+                "那",
+                "nà"
+              ],
+              "83": [
+                "还",
+                "huán"
+              ],
+              "84": [
+                "么",
+                "yāo"
+              ],
+              "85": [
+                "你",
+                "nǐ"
+              ],
+              "86": [
+                "三",
+                "sān"
+              ],
+              "87": [
+                "分",
+                "fēn"
+              ],
+              "88": [
+                "方",
+                "fāng"
+              ],
+              "89": [
+                "日",
+                "rì"
+              ],
+              "90": [
+                "打",
+                "dǎ"
+              ],
+              "91": [
+                "老",
+                "lǎo"
+              ],
+              "92": [
+                "物",
+                "wù"
+              ],
+              "93": [
+                "书",
+                "shū"
+              ],
+              "94": [
+                "然",
+                "rán"
+              ],
+              "95": [
+                "二",
+                "èr"
+              ],
+              "96": [
+                "而",
+                "ér"
+              ],
+              "97": [
+                "定",
+                "dìng"
+              ],
+              "98": [
+                "果",
+                "guǒ"
+              ],
+              "99": [
+                "前",
+                "qián"
+              ],
+              "100": [
+                "间",
+                "jiān"
+              ],
+              "101": [
+                "当",
+                "dāng"
+              ],
+              "102": [
+                "十",
+                "shí"
+              ],
+              "103": [
+                "叫",
+                "jiào"
+              ],
+              "104": [
+                "因",
+                "yīn"
+              ],
+              "105": [
+                "从",
+                "cóng"
+              ],
+              "106": [
+                "现",
+                "xiàn"
+              ],
+              "107": [
+                "像",
+                "xiàng"
+              ],
+              "108": [
+                "种",
+                "zhǒng"
+              ],
+              "109": [
+                "里",
+                "lǐ"
+              ],
+              "110": [
+                "们",
+                "men"
+              ],
+              "111": [
+                "意",
+                "yì"
+              ],
+              "112": [
+                "回",
+                "huí"
+              ],
+              "113": [
+                "些",
+                "xiē"
+              ],
+              "114": [
+                "力",
+                "lì"
+              ],
+              "115": [
+                "公",
+                "gōng"
+              ],
+              "116": [
+                "手",
+                "shǒu"
+              ],
+              "117": [
+                "西",
+                "xī"
+              ],
+              "118": [
+                "车",
+                "chē"
+              ],
+              "119": [
+                "明",
+                "míng"
+              ],
+              "120": [
+                "情",
+                "qíng"
+              ],
+              "121": [
+                "头",
+                "tóu"
+              ],
+              "122": [
+                "见",
+                "jiàn"
+              ],
+              "123": [
+                "走",
+                "zǒu"
+              ],
+              "124": [
+                "东",
+                "dōng"
+              ],
+              "125": [
+                "经",
+                "jīng"
+              ],
+              "126": [
+                "话",
+                "huà"
+              ],
+              "127": [
+                "乐",
+                "lè"
+              ],
+              "128": [
+                "比",
+                "bǐ"
+              ],
+              "129": [
+                "把",
+                "bǎ"
+              ],
+              "130": [
+                "体",
+                "tǐ"
+              ],
+              "131": [
+                "两",
+                "liǎng"
+              ],
+              "132": [
+                "快",
+                "kuài"
+              ],
+              "133": [
+                "正",
+                "zhèng"
+              ],
+              "134": [
+                "才",
+                "cái"
+              ],
+              "135": [
+                "太",
+                "tài"
+              ],
+              "136": [
+                "吃",
+                "chī"
+              ],
+              "137": [
+                "真",
+                "zhēn"
+              ],
+              "138": [
+                "给",
+                "gěi"
+              ],
+              "139": [
+                "第",
+                "dì"
+              ],
+              "140": [
+                "觉",
+                "jué"
+              ],
+              "141": [
+                "只",
+                "zhǐ"
+              ],
+              "142": [
+                "每",
+                "měi"
+              ],
+              "143": [
+                "山",
+                "shān"
+              ],
+              "144": [
+                "白",
+                "bái"
+              ],
+              "145": [
+                "儿",
+                "ér"
+              ],
+              "146": [
+                "声",
+                "shēng"
+              ],
+              "147": [
+                "本",
+                "běn"
+              ],
+              "148": [
+                "美",
+                "měi"
+              ],
+              "149": [
+                "带",
+                "dài"
+              ],
+              "150": [
+                "进",
+                "jìn"
+              ],
+              "151": [
+                "位",
+                "wèi"
+              ],
+              "152": [
+                "使",
+                "shǐ"
+              ],
+              "153": [
+                "之",
+                "zhī"
+              ],
+              "154": [
+                "行",
+                "xíng"
+              ],
+              "155": [
+                "法",
+                "fǎ"
+              ],
+              "156": [
+                "次",
+                "cì"
+              ],
+              "157": [
+                "弟",
+                "dì"
+              ],
+              "158": [
+                "写",
+                "xiě"
+              ],
+              "159": [
+                "跟",
+                "gēn"
+              ],
+              "160": [
+                "色",
+                "sè"
+              ],
+              "161": [
+                "电",
+                "diàn"
+              ],
+              "162": [
+                "字",
+                "zì"
+              ],
+              "163": [
+                "于",
+                "yú"
+              ],
+              "164": [
+                "表",
+                "biǎo"
+              ],
+              "165": [
+                "爱",
+                "ài"
+              ],
+              "166": [
+                "问",
+                "wèn"
+              ],
+              "167": [
+                "钱",
+                "qián"
+              ],
+              "168": [
+                "边",
+                "biān"
+              ],
+              "169": [
+                "听",
+                "tīng"
+              ],
+              "170": [
+                "再",
+                "zài"
+              ],
+              "171": [
+                "完",
+                "wán"
+              ],
+              "172": [
+                "几",
+                "jī"
+              ],
+              "173": [
+                "但",
+                "dàn"
+              ],
+              "174": [
+                "名",
+                "míng"
+              ],
+              "175": [
+                "身",
+                "shēn"
+              ],
+              "176": [
+                "风",
+                "fēng"
+              ],
+              "177": [
+                "月",
+                "yuè"
+              ],
+              "178": [
+                "全",
+                "quán"
+              ],
+              "179": [
+                "放",
+                "fàng"
+              ],
+              "180": [
+                "路",
+                "lù"
+              ],
+              "181": [
+                "别",
+                "bié"
+              ],
+              "182": [
+                "己",
+                "jǐ"
+              ],
+              "183": [
+                "相",
+                "xiāng"
+              ],
+              "184": [
+                "什",
+                "shí"
+              ],
+              "185": [
+                "早",
+                "zǎo"
+              ],
+              "186": [
+                "文",
+                "wén"
+              ],
+              "187": [
+                "合",
+                "hé"
+              ],
+              "188": [
+                "重",
+                "zhòng"
+              ],
+              "189": [
+                "理",
+                "lǐ"
+              ],
+              "190": [
+                "喜",
+                "xǐ"
+              ],
+              "191": [
+                "或",
+                "huò"
+              ],
+              "192": [
+                "工",
+                "gōng"
+              ],
+              "193": [
+                "四",
+                "sì"
+              ],
+              "194": [
+                "被",
+                "bèi"
+              ],
+              "195": [
+                "妈",
+                "mā"
+              ],
+              "196": [
+                "爸",
+                "bà"
+              ],
+              "197": [
+                "部",
+                "bù"
+              ]
+            }
           }
         })
       })
@@ -112,7 +904,7 @@ form.addEventListener('submit', e => {
     showStudyLists(username)
   }
 })
-let play = false
+
 //creates buttons listing available study lists for the user
 function showStudyLists(username){
   for (const list in users[username].studyLists){
@@ -120,80 +912,87 @@ function showStudyLists(username){
     listButton.className = 'listButton'; 
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', () => {
-      setUpReadings(list, username)
-      play = false
-      while (play === false){
-        if (ready === false){
-          console.log('waiting')
-        }else{
-          playGame()
-          play === true
-        }
-      }
+      unplayed = {...users[username].studyLists[list]}
+      playGame(unplayed)
     })
     document.getElementById('studyListContainer').appendChild(listButton);
   }
   const listButton = document.createElement('button');
   listButton.className = 'listButton'; 
-  listButton.textContent = `Create new`
-  document.getElementById('studyListContainer').appendChild(listButton);
+  listButton.textContent = `Create New`
   listButton.addEventListener('click', () => {
     gameWindow.innerHTML = ''
-    correct = 0
-    incorrect = 0
-    points = 0
     document.getElementById('newListForm').style.display = 'contents'
   })
+  document.getElementById('studyListContainer').appendChild(listButton);
 }
 
-function setUpReadings(list, username){
-  ready = false
-  gameWindow.innerHTML = ''
-      unplayed = [...users[username].studyLists[list]]
 
-      for (const item of unplayed){
-      fetch(`https://api.ctext.org/getcharacter?char=${item}`)
-      .then(res => res.json())
-      .then(data => {
-        readings.push(data.readings.mandarinpinyin[0]);
-        ready = true
-      })
-      }
-}
 
 //creates new list on submit updating local user object and db.json object
-
-document.getElementById('newListForm').addEventListener('submit', e => {
+const newListForm = document.getElementById('newListForm')
+newListForm.addEventListener('submit', e => {
   e.preventDefault();
-  const newList = [];
+
   const newListName = document.getElementById('listName').value;
   const newListItems = document.getElementById('listItems').value.replaceAll(',', '').replaceAll(' ', '');
 
-  for (const character of newListItems){
+  users[loggedInUser].studyLists[newListName] = {}
+  users[loggedInUser].studyLists[newListName].contents = [...newListItems]
 
-    newList.push(character)
+
+  for (i=0; i < newListItems.length; i++){
+    listNumber = i
+    users[loggedInUser].studyLists[newListName][listNumber] = [newListItems[listNumber]]
   }
 
-  users[loggedInUser].studyLists[newListName] = newList
-  updateDb(loggedInUser);
-  document.getElementById('newListForm').style.display = 'none'
-  document.getElementById('studyListContainer').innerHTML = ''
-  showStudyLists(loggedInUser)
+  const myPromise = new Promise(()=>{
+    setUpReadings(newListName)
+  });
+
+  myPromise.then((position)=>{
+    for (let i=0; i<position.length; i++){
+      users[loggedInUser].studyLists[newListName][i].push(position[i])
+    }
+    updateDb(loggedInUser);
+    newListForm.reset();
+    document.getElementById('newListForm').style.display = 'none'
+    document.getElementById('studyListContainer').innerHTML = ''
+    showStudyLists(loggedInUser)
+  })
 });
 
 
-function playGame(){
-  debugger;
+
+function setUpReadings(list) {
+  position = []
+  for (let i = 0; i <=list.length; i++){
+    const elem = list[i]
+
+    if (i !== list.length){
+      fetch(`https://api.ctext.org/getcharacter?char=${elem}`)
+      .then(res => res.json())
+      .then(data => {
+        position.push(data.readings.mandarinpinyin[0])
+      })
+    }else{
+      // Promise.resolve()
+      return position
+      }
+  }
+}
+
+
+function playGame(list){
+  const keys = Object.keys(list)
   gameWindow.innerHTML = ''
-  if (unplayed.length > 0) {
-    let randomNum = Math.floor(Math.random() * unplayed.length)
-    const currentCharacter = unplayed[randomNum]
+  correct = 0
+  incorrect = 0
+  points = 0
+  if (keys.length > 0) {
+    let randomNum = Math.floor(Math.random() * keys.length)
 
-    createGameCard(currentCharacter, randomNum)
-
-
-    unplayed.splice(randomNum, 1)
-    readings.splice(randomNum, 1)
+    createGameCard(randomNum, keys)
   }else{
     document.getElementById('card').innerHTML = ''
     const correctAnswers = document.createElement('h2')
@@ -209,13 +1008,14 @@ function playGame(){
   }
 }
 
-function createGameCard(character, num){
+function createGameCard(num, keys){
   
   gameWindow.innerHTML = ''
   const answers = []
   answers.push(num)
+
   while(answers.length !== 4){
-    let randNum = Math.floor(Math.random() * unplayed.length)
+    let randNum = Math.floor(Math.random() * keys.length)
     if (answers.indexOf(randNum) === -1 && randNum % 2 ===0){
       answers.push(randNum)
     }else if (answers.indexOf(randNum) === -1 && randNum % 2 ===1){
@@ -223,13 +1023,11 @@ function createGameCard(character, num){
     }
   }
 
-
   const card = document.createElement('div')
   card.id = 'card'
-
   const target = document.createElement('h1')
   target.className = 'target'
-  target.textContent = character
+  target.textContent = unplayed[num][0]
   card.appendChild(target)
 
   for (i=0; i<4; i++){
@@ -237,15 +1035,22 @@ function createGameCard(character, num){
     choice.className = 'choice'
     choice.id = `choice${i}`
 
-    choice.textContent = `${readings[answers[i]]}`
+    choice.textContent = `${unplayed[answers[i]][1]}`
 
   
     choice.addEventListener('click', ()=>{
       const correctness = document.getElementById('correctness')
-      if (choice.id === num){
+      if (choice.textContent === unplayed[num][1]){
+        correct++
+        points++
+        updatePoints(loggedInUser, 1)
+        updateLeaderboard()
+        updateDb(loggedInUser)
         correctness.textContent = "Correct"
         correctness.style.color = 'green'
+        delete unplayed[num]
       }else{
+        incorrect++
         correctness.textContent = "Incorrect"
         correctness.style.color = 'red'
       }
@@ -255,7 +1060,7 @@ function createGameCard(character, num){
       nextButton.addEventListener('click', ()=>{
         correctness.innerHTML = '';
         gameWindow.innerHTML = ''
-        playGame()
+        playGame(unplayed)
       })
 
       card.appendChild(nextButton)
@@ -265,9 +1070,9 @@ function createGameCard(character, num){
   }
 
   const remaining = document.createElement('p')
-  remaining.className = 'remaining'
-  remaining.textContent = `${unplayed.length} cards remaining`
-  card.appendChild(remaining)
+  remaining.id = 'remaining'
+  remaining.textContent = `${Object.keys(unplayed).length} cards remaining`
+  card.insertBefore(remaining, card.firstChild)
 
   gameWindow.appendChild(card)
 
@@ -294,11 +1099,10 @@ function updateDb(username){
         },
         body: JSON.stringify(users[username])
   })
-  .then(res => res.json())
-  .then(data => console.log(data))
 }
  
 function updateLeaderboard(){
+  document.getElementById('leaderboard').innerHTML = ''
   const userArray = [...Object.keys(users)]
   const scoreOrder = []
 
@@ -317,15 +1121,18 @@ function updateLeaderboard(){
     }
 
   }
-  for (const person of scoreOrder){
+  for (i=0; i<11; i++){
+    if (scoreOrder[i]){
+      const person = scoreOrder[i]
     const entry = document.createElement('li');
     entry.className = 'leaderboardEntry';
     entry.textContent = `${users[person].points}..........${person}`
 
-    document.getElementById('leaderboard').appendChild(entry)
+    document.getElementById('leaderboard').appendChild(entry)}
+  }
+  if (loggedInUser){
+    document.getElementById('points').textContent = `You have ${users[loggedInUser].points} points`
   }
 }
 
 setTimeout(updateLeaderboard, 100)
-
-// character pronunciation: https://api.ctext.org/getcharacter?char= + character
