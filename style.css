@@ -105,3 +105,8 @@ h2{
 h2#leaderboardHeading{
   text-align:center;
 }
+
+div#nextDiv{
+  display: flex;
+  justify-content: space-around;
+}

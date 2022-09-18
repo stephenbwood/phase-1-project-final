@@ -882,7 +882,6 @@ function handleLogIn(username, password){
     isLoggedIn = true;
     loggedInUser = username;
     document.getElementById('createAccount').style.display = 'none'
-    points = users[username].points
     document.getElementById('welcome').textContent = `Welcome, ${username}`
     document.getElementById('points').textContent = `You have ${users[username].points} points`
   }else{
@@ -906,13 +905,13 @@ form.addEventListener('submit', e => {
     e.preventDefault()
     handleLogIn(username, password)
     if(isLoggedIn){
-    showStudyLists(username)
+    showStudyLists()
     }
   }
 })
 
 //creates buttons listing available study lists for the user
-function showStudyLists(username){
+function showStudyLists(){
   const userListsLocation = users[loggedInUser].userStudyLists
   const builtInListsLocation = builtInStudyLists
   const studyListContainer = document.getElementById('studyListContainer')
@@ -928,12 +927,16 @@ function createButtons(location){
   const studyListContainer = document.getElementById('studyListContainer')
 
   for (const list in location){
+    const target = location[list]
     const listButton = document.createElement('button');
     listButton.className = 'listButton'; 
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', () => {
-      unplayed = [...[location][list]]
-      playGame(unplayed)
+      unplayed = [...target]
+      correct = 0
+      incorrect = 0
+      points = 0
+      playGame()
     })
     studyListContainer.appendChild(listButton);
   }
@@ -1005,34 +1008,13 @@ function setUpReadings(list){
     })
     
   }
-  // let i=0
-  // keys.forEach(key => {
-  //   debugger
-  //   if (i<keys.length){
-  //     const character = users[loggedInUser].studyLists[list][key]
-  //     fetch(`https://api.ctext.org/getcharacter?char=${character[0]}`)
-  //       .then(res => res.json())
-  //       .then(entry => {
-
-  //         results = {...entry};
-  //         return results
-  //       })
-  //       .then(data => character.push(data.readings.mandarinpinyin[0]))
-  //       .then(()=> i++)
-  //   }else{return results}
-  // });
 }
 
 
-function playGame(list){
-  listKeys = Object.keys(list)
-  gameWindow.innerHTML = ''
-  correct = 0
-  incorrect = 0
-  points = 0
-  if (listKeys.length > 0) {
-    let randomNum = Math.floor(Math.random() * listKeys.length)
-    console.log([randomNum])
+function playGame(){
+  if (unplayed.length > 0) {
+    gameWindow.innerHTML = ''
+    let randomNum = Math.ceil(Math.random() * unplayed.length) - 1
 
     createGameCard(randomNum)
   }else{
@@ -1057,16 +1039,32 @@ function createGameCard(num){
   answers.push(num)
 
   while(answers.length !== 4){
-    let randNum = Math.floor(Math.random() * listKeys.length)
+    if(unplayed.length <= 3){
+      answers.push('a', 'b')
+      answers.unshift('c')
+    }else{
+    let randNum = Math.floor(Math.random() * unplayed.length)
     if (answers.indexOf(randNum) === -1 && randNum % 2 ===0){
       answers.push(randNum)
     }else if (answers.indexOf(randNum) === -1 && randNum % 2 ===1){
       answers.unshift(randNum)
     }
   }
+  }
 
   const card = document.createElement('div')
   card.id = 'card'
+
+  const remaining = document.createElement('p')
+  remaining.id = 'remaining'
+  remaining.textContent = `${unplayed.length} cards remaining`
+  card.appendChild(remaining)
+
+  const correctness = document.createElement('h2')
+  correctness.textContent = ' '
+  remaining.id = 'correctness'
+  card.appendChild(correctness)
+
   const target = document.createElement('h1')
   target.className = 'target'
   target.textContent = unplayed[num][0]
@@ -1076,69 +1074,73 @@ function createGameCard(num){
     const choice = document.createElement('button')
     choice.className = 'choice'
     choice.id = `choice${i}`
+    if(answers[i] === 'a'){
+      choice.textContent = `bán`
+    }else if(answers[i] === 'b'){
+      choice.textContent = `lòng`
+    }else if(answers[i] === 'c'){
+      choice.textContent = `shuà`
+    }else{
     choice.textContent = `${unplayed[answers[i]][1]}`
+  }
 
     choice.addEventListener('click', ()=>{
       const correctness = document.getElementById('correctness')
       if (choice.textContent === unplayed[num][1]){
         correct++
         points++
-        updatePoints(loggedInUser, 1)
+        updatePoints()
         updateLeaderboard()
         updateDb(loggedInUser)
         correctness.textContent = "Correct"
         correctness.style.color = 'green'
-        delete unplayed[num]
-        listKeys.splice(num, 1)
+        unplayed.splice(num, 1)
       }else{
         incorrect++
         correctness.textContent = "Incorrect"
         correctness.style.color = 'red'
       }
+
+      const div = document.createElement('div')
+      div.style.width='100%'
+      div.id = 'nextDiv'
+
       const nextButton = document.createElement('button')
       nextButton.id = 'nextButton'
       nextButton.textContent = 'Next'
       nextButton.addEventListener('click', ()=>{
         correctness.innerHTML = '';
-        gameWindow.innerHTML = ''
-        playGame(unplayed)
+        playGame()
       })
 
-      card.appendChild(nextButton)
+      div.appendChild(nextButton)
+      card.appendChild(div)
     })
 
     card.appendChild(choice)
   }
 
-  const remaining = document.createElement('p')
-  remaining.id = 'remaining'
-  remaining.textContent = `${Object.keys(unplayed).length} cards remaining`
-  card.insertBefore(remaining, card.firstChild)
-
   gameWindow.appendChild(card)
 
 }
 
-function updatePoints(username, pointsEarned){
-  points += pointsEarned;
-  users[username].points += pointsEarned
+function updatePoints(){
+  users[loggedInUser].points++
 
-  updateDb(username)
+  updateDb(loggedInUser)
   updateLeaderboard()
 
-  document.getElementById('points').textContent = `You have ${users[username].points} points`
-
-  points = 0
+  document.getElementById('points').textContent = `You have ${users[loggedInUser].points} points`
 }
 
-function updateDb(username){
-  fetch(`http://localhost:3000/users/${users[username].id}`, {
+function updateDb(){
+  fetch(`http://localhost:3000/users/${users[loggedInUser].id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify(users[username])
+        body: JSON.stringify(users[loggedInUser])
   })
 }
  

@@ -2,7 +2,7 @@
   "users": [
     {
       "username": "smcvey",
-      "points": 0,
+      "points": 138,
       "password": "password",
       "userStudyLists": {
         "grade2": [
@@ -20485,9 +20485,72 @@
           [
             "菇"
           ]
+        ],
+        "numbers": [
+          [
+            "一",
+            "yī"
+          ],
+          [
+            "二",
+            "èr"
+          ],
+          [
+            "三",
+            "sān"
+          ],
+          [
+            "四",
+            "sì"
+          ],
+          [
+            "五",
+            "wǔ"
+          ],
+          [
+            "六",
+            "liù"
+          ],
+          [
+            "七",
+            "qī"
+          ],
+          [
+            "八",
+            "bā"
+          ],
+          [
+            "九",
+            "jiǔ"
+          ],
+          [
+            "十",
+            "shí"
+          ]
         ]
       },
       "id": 1
+    },
+    {
+      "username": "swood",
+      "points": 2,
+      "password": "1234",
+      "userStudyLists": {},
+      "id": 2
+    },
+    {
+      "username": "xhou",
+      "points": 2,
+      "password": "chirpy",
+      "userStudyLists": {},
+      "id": 3
+    },
+    {
+      "username": "amcherman",
+      "points": 6,
+      "password": "efron",
+      "userStudyLists": {},
+      "id": 4
     }
   ]
 }
