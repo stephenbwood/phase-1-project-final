@@ -826,7 +826,7 @@ fetch(`http://localhost:3000/users`, {
       password: user.password,
       points: user.points,
       id: user.id,
-      userStudyLists: {}
+      userStudyLists: user.userStudyLists
     }
   }
 })
@@ -847,9 +847,7 @@ function handleCreateUser(username, password){
           "username": username,
           "points": 0,
           "password": password,
-          "studyLists": {
-            "grade 1": grade1
-          }
+          "userStudyLists": {}
         })
       })
     .then(() => alert(`Account successfully created`))
@@ -914,31 +912,34 @@ form.addEventListener('submit', e => {
 })
 
 //creates buttons listing available study lists for the user
-function showStudyLists(username = 'default'){
-  const userListsLocation = users[loggedInUser].studyLists
+function showStudyLists(username){
+  const userListsLocation = users[loggedInUser].userStudyLists
   const builtInListsLocation = builtInStudyLists
+  const studyListContainer = document.getElementById('studyListContainer')
+
+  studyListContainer.innerHTML = ''
 
   createButtons(builtInListsLocation)
-  if (username !== 'default'){
   createButtons(userListsLocation)
-  }
-  createNextButton()
+  createNewListButton()
 }
 
 function createButtons(location){
+  const studyListContainer = document.getElementById('studyListContainer')
+
   for (const list in location){
     const listButton = document.createElement('button');
     listButton.className = 'listButton'; 
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', () => {
-      unplayed = [...users[username].studyLists[list]]
+      unplayed = [...[location][list]]
       playGame(unplayed)
     })
-    document.getElementById('studyListContainer').appendChild(listButton);
+    studyListContainer.appendChild(listButton);
   }
 }
 
-function createNextButton(){
+function createNewListButton(){
   const listButton = document.createElement('button');
   listButton.className = 'listButton'; 
   listButton.textContent = `Create New`
@@ -956,21 +957,16 @@ newListForm.addEventListener('submit', e => {
   e.preventDefault();
 
   const newListName = document.getElementById('listName').value;
-  const newListItems = document.getElementById('listItems').value.replaceAll(',', '').replaceAll(' ', '');
+  const newListItems = document.getElementById('listItems').value.replaceAll(',', '').replaceAll(' ', '').replaceAll('\n', '');
+  const newListPath = users[loggedInUser].userStudyLists
 
-  users[loggedInUser].studyLists[newListName] = []
+  newListPath[newListName] = []
   
   for (const char of newListItems){
-    users[loggedInUser].studyLists[newListName].push([char])
+    newListPath[newListName].push([char])
   }
 
   setUpReadings(newListName)
-
-  updateDb(loggedInUser);
-  newListForm.reset();
-  document.getElementById('newListForm').style.display = 'none'
-  document.getElementById('studyListContainer').innerHTML = ''
-  showStudyLists(loggedInUser)
 
 
   // const myPromise = new Promise(()=>{
@@ -991,14 +987,21 @@ newListForm.addEventListener('submit', e => {
 
 function setUpReadings(list){
 
-  const targetList = users[loggedInUser].studyLists[list]
+  const targetList = users[loggedInUser].userStudyLists[list]
 
   for (const member of targetList){
     fetch(`https://api.ctext.org/getcharacter?char=${member[0]}`)
     .then((res)=> res.json())
     .then((entry) => {
-      debugger
       member.push(entry.readings.mandarinpinyin[0])
+    })
+    .then(res =>{
+      updateDb(loggedInUser);
+      newListForm.reset();
+      document.getElementById('newListForm').style.display = 'none'
+      document.getElementById('studyListContainer').innerHTML = ''
+      showStudyLists(loggedInUser)
+
     })
     
   }
@@ -1019,24 +1022,6 @@ function setUpReadings(list){
   //   }else{return results}
   // });
 }
-
-// function setUpReadings(list) {
-//   position = []
-//   for (let i = 0; i <=list.length; i++){
-//     const elem = list[i]
-
-//     if (i !== list.length){
-//       fetch(`https://api.ctext.org/getcharacter?char=${elem}`)
-//       .then(res => res.json())
-//       .then(data => {
-//         position.push(data.readings.mandarinpinyin[0])
-//       })
-//     }else{
-//       // Promise.resolve()
-//       return position
-//       }
-//   }
-// }
 
 
 function playGame(list){
@@ -1091,7 +1076,6 @@ function createGameCard(num){
     const choice = document.createElement('button')
     choice.className = 'choice'
     choice.id = `choice${i}`
-    debugger
     choice.textContent = `${unplayed[answers[i]][1]}`
 
     choice.addEventListener('click', ()=>{
