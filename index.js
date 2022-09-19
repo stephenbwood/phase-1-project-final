@@ -1153,7 +1153,6 @@ function updateLeaderboard(){
   document.getElementById('leaderboard').innerHTML = ''
   const userArray = [...Object.keys(users)]
   const scoreOrder = []
-  console.log(`userArray is ${userArray}`)
   scoreOrder.push(userArray[0])
   let cont = false
 
@@ -1181,7 +1180,14 @@ function updateLeaderboard(){
       const person = scoreOrder[i]
     const entry = document.createElement('li');
     entry.className = 'leaderboardEntry';
-    entry.textContent = `${users[person].points}..........${person}`
+    entry.textContent = `${person}`
+    const dotsNeeded = (16-entry.textContent.length)*2
+    let a = 0
+    while (a < dotsNeeded){
+      entry.textContent += '.'
+      a++
+    }
+    entry.textContent += `${users[person].points}`
 
     document.getElementById('leaderboard').appendChild(entry)}
   }
