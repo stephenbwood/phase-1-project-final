@@ -932,6 +932,7 @@ function createButtons(location){
     listButton.className = 'listButton'; 
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', () => {
+      document.getElementById('newListForm').style.display = 'none'
       unplayed = [...target]
       correct = 0
       incorrect = 0
