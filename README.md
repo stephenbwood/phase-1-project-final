@@ -17,4 +17,4 @@ Built-in list of Chinese characters by grade obtained from:
   https://web.archive.org/web/20111215143140/http://residence.educities.edu.tw/wei3128/currinstruc/wordclause/generwordgrd9.htm
 
 Pinyin pronunciations obtained from api.ctext.org:  
-https://api.ctext.org/getcharacter?char='character'
+https://api.ctext.org/getcharacter?char= + character
