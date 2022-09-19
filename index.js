@@ -1101,6 +1101,10 @@ function createGameCard(num){
         correctness.textContent = "Incorrect"
         correctness.style.color = 'red'
       }
+      document.getElementById('choice0').disabled = true
+      document.getElementById('choice1').disabled = true
+      document.getElementById('choice2').disabled = true
+      document.getElementById('choice3').disabled = true
 
       const div = document.createElement('div')
       div.style.width='100%'
