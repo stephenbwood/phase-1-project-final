@@ -884,6 +884,7 @@ function handleLogIn(username, password){
     document.getElementById('createAccount').style.display = 'none'
     document.getElementById('welcome').textContent = `Welcome, ${username}`
     document.getElementById('points').textContent = `You have ${users[username].points} points`
+    document.getElementById('chooseList').style.display = 'inline'
   }else{
     alert('This username and password combination is not recognized. Please try again or create an account.')
   }
@@ -1061,6 +1062,9 @@ function createGameCard(num){
   remaining.textContent = `${unplayed.length} cards remaining`
   card.appendChild(remaining)
 
+  const br = document.createElement('br')
+  card.appendChild(br)
+
   const correctness = document.createElement('h2')
   correctness.textContent = ' '
   remaining.id = 'correctness'
@@ -1098,7 +1102,7 @@ function createGameCard(num){
         unplayed.splice(num, 1)
       }else{
         incorrect++
-        correctness.textContent = "Incorrect"
+        correctness.textContent = `Incorrect (${unplayed[num][1]})`
         correctness.style.color = 'red'
       }
       document.getElementById('choice0').disabled = true
@@ -1181,7 +1185,7 @@ function updateLeaderboard(){
     const entry = document.createElement('li');
     entry.className = 'leaderboardEntry';
     entry.textContent = `${person}`
-    const dotsNeeded = (16-entry.textContent.length)*2
+    const dotsNeeded = (25-entry.textContent.length)*2
     let a = 0
     while (a < dotsNeeded){
       entry.textContent += '.'

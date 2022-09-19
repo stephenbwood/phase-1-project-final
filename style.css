@@ -1,5 +1,13 @@
 body{
-  background-color: rgb(177, 213, 243);
+  background-color: #C7D4E0;
+}
+
+div#homepage >h1{
+  z-index: 1;
+  font-size: 50px;
+  position: absolute;
+  right: 50px;
+  top: 100px;
 }
 
 p#haveAccount:hover{
@@ -7,24 +15,33 @@ p#haveAccount:hover{
 }
 
 form{
+  z-index: 3;
+  color: #DDDDDF;
   width: 50%;
   padding: 10px;
-  box-shadow: 8px 10px black;
-  background-color: rgb(43, 64, 105);
-  border-radius: 20px;
+  background-color: #376262CC ;
+  border-radius: 5px;
   color: white;
 }
 
 div#userInfo{
+  width: 100%;
+  height: 100px;
+  text-align: right;
+  color: #DDDDDF;
   position: absolute;
-  top: 20px;
-  right: 50px;
+  top: 0;
   padding: 20px 70px 20px 70px;
-  border-radius: 40px;
-  background-color: beige;
-  box-shadow: 8px 10px;
+  background-image: linear-gradient(to right, #C7D4E0 40%, #1B2020);
+  font-size: 25px;
   z-index: -1;
-  
+  padding: 0px;
+}
+
+#welcome, #points{
+  position: relative;
+  right: 100px;
+  top: 20px;
 }
 
 h3, h4{
@@ -37,18 +54,20 @@ form#newListForm{
 }
 
 #card{
-  background-color: beige;
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  color: #DDDDDF;
+  background-color: #376262CC;
   margin-top: 30px;
   width: 400px;
-  height: 500px;
-  border-radius: 40px;
-  box-shadow: 8px 10px;
+  height: 450px;
+  border-radius: 5px;
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
   justify-content: space-around;
 }
-
 
 h1.target{
   text-align: center;
@@ -67,25 +86,37 @@ div#block1{
 }
 
 div#block2{
-  position: relative;
+  color: #DDDDDF;
+  position: absolute;
   float: right;
   right: 50px;
-  top: 10px;
-  background-color: beige;
-  width: 30%;
-  height: 400px;
-  border-radius: 40px;
-  box-shadow: 8px 10px;
+  bottom: 10px;
+  background-color: #376262CC;
+  width: 370px;
+  height: 450px;
+  border-radius: 5px;
   overflow: hidden;
+  z-index: -2;
+}
+
+h2#chooseList{
+  position: absolute;
+  top: 200px;
+}
+
+div#studyListContainer{
+  position: absolute;
+  top: 300px;
+  width: 50%;
+  background-color: #C7D4E0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 li{
   text-align: justify;
-}
-
-#remaining{
-  color: blue;
-  padding-top: 10px;
+  margin-bottom: 8px;
 }
 
 button{
@@ -97,10 +128,12 @@ button{
 
 button.listButton{
   margin-right: 20px;
+  margin-bottom: 10px;
 }
 
-h2{
+h2#chooseList{
   text-align: left;
+  background-color: #C7D4E0;
 }
 
 h2#leaderboardHeading{
@@ -113,7 +146,10 @@ div#nextDiv{
 }
 
 p#correctness{
-  font-size: 50px;
+  background-color: #1B2020;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
   position: relative;
-  left: 15%;
+  margin: 0px;
 }
