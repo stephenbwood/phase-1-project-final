@@ -20540,9 +20540,53 @@
     },
     {
       "username": "xhou",
-      "points": 2,
+      "points": 12,
       "password": "chirpy",
-      "userStudyLists": {},
+      "userStudyLists": {
+        "": [],
+        "numbers": [
+          [
+            "一",
+            "yī"
+          ],
+          [
+            "二",
+            "èr"
+          ],
+          [
+            "三",
+            "sān"
+          ],
+          [
+            "四",
+            "sì"
+          ],
+          [
+            "五",
+            "wǔ"
+          ],
+          [
+            "六",
+            "liù"
+          ],
+          [
+            "七",
+            "qī"
+          ],
+          [
+            "八",
+            "bā"
+          ],
+          [
+            "九",
+            "jiǔ"
+          ],
+          [
+            "十",
+            "shí"
+          ]
+        ]
+      },
       "id": 3
     },
     {
@@ -20551,6 +20595,56 @@
       "password": "efron",
       "userStudyLists": {},
       "id": 4
+    },
+    {
+      "username": "pamelamcvey",
+      "points": 10,
+      "password": "rainbow",
+      "userStudyLists": {
+        "numbers": [
+          [
+            "一",
+            "yī"
+          ],
+          [
+            "二",
+            "èr"
+          ],
+          [
+            "三",
+            "sān"
+          ],
+          [
+            "四",
+            "sì"
+          ],
+          [
+            "五",
+            "wǔ"
+          ],
+          [
+            "六",
+            "liù"
+          ],
+          [
+            "七",
+            "qī"
+          ],
+          [
+            "八",
+            "bā"
+          ],
+          [
+            "九",
+            "jiǔ"
+          ],
+          [
+            "十",
+            "shí"
+          ]
+        ]
+      },
+      "id": 5
     }
   ]
 }

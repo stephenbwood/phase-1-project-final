@@ -1148,19 +1148,26 @@ function updateLeaderboard(){
   document.getElementById('leaderboard').innerHTML = ''
   const userArray = [...Object.keys(users)]
   const scoreOrder = []
-
+  console.log(`userArray is ${userArray}`)
   scoreOrder.push(userArray[0])
+  let cont = false
 
   for (i = 1; i < userArray.length; i++){
-    
+    cont = false
     for(j = 0; j < scoreOrder.length; j++){
-      
       if (users[userArray[i]].points >= users[scoreOrder[j]].points){
         scoreOrder.splice(j, 0, userArray[i])
+        cont = true
         break
       }else if (users[userArray[i]].points < users[scoreOrder[scoreOrder.length-1]].points){
         scoreOrder.push(userArray[i])
+        cont = true
+        break
       }
+      if (cont === true){
+        break
+      }
+      
     }
 
   }
