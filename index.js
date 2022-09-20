@@ -13969,6 +13969,7 @@ function createButtons(location){
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', () => {
       document.getElementById('newListForm').style.display = 'none'
+      gameWindow.style.display = 'inline'
       unplayed = [...target]
       correct = 0
       incorrect = 0
@@ -13985,44 +13986,37 @@ function createNewListButton(){
   listButton.textContent = `Create New`
   listButton.addEventListener('click', () => {
     gameWindow.innerHTML = ''
-    document.getElementById('newListForm').style.display = 'contents'
+    gameWindow.style.display = 'none'
+    document.getElementById('newListForm').style.display = 'inline'
   })
   document.getElementById('studyListContainer').appendChild(listButton);
 }
 
+document.getElementById('cancel').addEventListener('click', (e)=> {
+  e.preventDefault();
+  document.getElementById('newListForm').style.display = 'none'
+})
 
 //creates new list on submit updating local user object and db.json object
 const newListForm = document.getElementById('newListForm')
 newListForm.addEventListener('submit', e => {
   e.preventDefault();
-
   const newListName = document.getElementById('listName').value;
   const newListItems = document.getElementById('listItems').value.replaceAll(',', '').replaceAll(' ', '').replaceAll('\n', '');
   const newListPath = users[loggedInUser].userStudyLists
 
   newListPath[newListName] = []
   
+  if (newListName !== '' && newListItems !== ''){
+
   for (const char of newListItems){
     newListPath[newListName].push([char])
   }
 
   setUpReadings(newListName)
-
-
-  // const myPromise = new Promise(()=>{
-  //   setUpReadings(newListName)
-  // });
-
-  // myPromise.then((position)=>{
-  //   for (let i=0; i<position.length; i++){
-  //     users[loggedInUser].studyLists[newListName][i].push(position[i])
-  //   }
-  //   updateDb(loggedInUser);
-  //   newListForm.reset();
-  //   document.getElementById('newListForm').style.display = 'none'
-  //   document.getElementById('studyListContainer').innerHTML = ''
-  //   showStudyLists(loggedInUser)
-  // })
+}else{
+  alert('Please enter list name and at least one character')
+}
 });
 
 function setUpReadings(list){
@@ -14132,8 +14126,8 @@ function createGameCard(num){
         updatePoints()
         updateLeaderboard()
         updateDb(loggedInUser)
-        correctness.textContent = "Correct"
-        correctness.style.color = 'green'
+        correctness.textContent = "Correct!"
+        correctness.style.color = '#50f1b1'
         unplayed.splice(num, 1)
       }else{
         incorrect++

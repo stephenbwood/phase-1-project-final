@@ -2,16 +2,146 @@
   "users": [
     {
       "username": "smcvey",
-      "points": 160,
+      "points": 64,
       "password": "password",
-      "userStudyLists": {},
+      "userStudyLists": {
+        "numbers": [
+          [
+            "一",
+            "yī"
+          ],
+          [
+            "二",
+            "èr"
+          ],
+          [
+            "三",
+            "sān"
+          ],
+          [
+            "四",
+            "sì"
+          ],
+          [
+            "五",
+            "wǔ"
+          ],
+          [
+            "六",
+            "liù"
+          ],
+          [
+            "七",
+            "qī"
+          ],
+          [
+            "八",
+            "bā"
+          ],
+          [
+            "九",
+            "jiǔ"
+          ],
+          [
+            "十",
+            "shí"
+          ]
+        ],
+        "elements": [
+          [
+            "金",
+            "jīn"
+          ],
+          [
+            "木",
+            "mù"
+          ],
+          [
+            "水",
+            "shuǐ"
+          ],
+          [
+            "火",
+            "huǒ"
+          ],
+          [
+            "土",
+            "tǔ"
+          ]
+        ]
+      },
       "id": 1
     },
     {
       "username": "bruce",
       "points": 87,
       "password": "fishRfriends",
-      "userStudyLists": {},
+      "userStudyLists": {
+        "numbers": [
+          [
+            "一",
+            "yī"
+          ],
+          [
+            "二",
+            "èr"
+          ],
+          [
+            "三",
+            "sān"
+          ],
+          [
+            "四",
+            "sì"
+          ],
+          [
+            "五",
+            "wǔ"
+          ],
+          [
+            "六",
+            "liù"
+          ],
+          [
+            "七",
+            "qī"
+          ],
+          [
+            "八",
+            "bā"
+          ],
+          [
+            "九",
+            "jiǔ"
+          ],
+          [
+            "十",
+            "shí"
+          ]
+        ],
+        "elements": [
+          [
+            "金",
+            "jīn"
+          ],
+          [
+            "木",
+            "mù"
+          ],
+          [
+            "水",
+            "shuǐ"
+          ],
+          [
+            "火",
+            "huǒ"
+          ],
+          [
+            "土",
+            "tǔ"
+          ]
+        ]
+      },
       "id": 2
     },
     {
@@ -74,7 +204,7 @@
     },
     {
       "username": "psherman",
-      "points": 10,
+      "points": 45,
       "password": "darla",
       "userStudyLists": {
         "numbers": [
@@ -121,6 +251,41 @@
         ]
       },
       "id": 5
+    },
+    {
+      "username": "hank",
+      "points": 0,
+      "password": "8legs",
+      "userStudyLists": {},
+      "id": 7
+    },
+    {
+      "username": "destiny",
+      "points": 37,
+      "password": "glasses",
+      "userStudyLists": {},
+      "id": 8
+    },
+    {
+      "username": "peach",
+      "points": 40,
+      "password": "4.2minutes",
+      "userStudyLists": {},
+      "id": 9
+    },
+    {
+      "username": "gill",
+      "points": 22,
+      "password": "sharkbait",
+      "userStudyLists": {},
+      "id": 10
+    },
+    {
+      "username": "jaque",
+      "points": 12,
+      "password": "decontamination",
+      "userStudyLists": {},
+      "id": 11
     }
   ]
 }

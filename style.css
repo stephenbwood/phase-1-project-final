@@ -49,8 +49,11 @@ h3, h4{
 }
 
 form#newListForm{
+  background-image: linear-gradient(to right, #376262CC 30%, #C7D4E0);
+  color: #DDDDDF;
+  position: absolute;
+  top: 450px;
   display: none;
-  color: black;
 }
 
 #card{
@@ -58,7 +61,7 @@ form#newListForm{
   bottom: 10px;
   left: 20px;
   color: #DDDDDF;
-  background-color: #376262CC;
+  background-image: linear-gradient(#376262CC 30%, #C7D4E0);
   margin-top: 30px;
   width: 400px;
   height: 450px;
@@ -76,13 +79,11 @@ h1.target{
   width: 100%;
 }
 
-#block{
-  display: inline;
-}
 
 div#block1{
+  display: inline;
+  top: 450px;
   width: 50%;
-  float: left;
 }
 
 div#block2{
@@ -91,9 +92,9 @@ div#block2{
   float: right;
   right: 50px;
   bottom: 10px;
-  background-color: #376262CC;
-  width: 370px;
-  height: 450px;
+  background-image: linear-gradient(#376262CC 70%, #C7D4E0);
+  width: 400px;
+  height: 500px;
   border-radius: 5px;
   overflow: hidden;
   z-index: -2;
@@ -119,8 +120,13 @@ li{
   margin-bottom: 8px;
 }
 
+ol{
+  font-size: 25px;
+  color: #C7D4E0;
+}
+
 button{
-  background-color: white;
+  background-color: #DDDDDF;
   color: black;
   border-style: double;
   border-radius: 5px;
@@ -132,6 +138,8 @@ button.listButton{
 }
 
 h2#chooseList{
+  position: absolute;
+  top: 220px;
   text-align: left;
   background-color: #C7D4E0;
 }
