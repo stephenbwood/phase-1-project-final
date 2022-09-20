@@ -120,6 +120,11 @@ li{
   margin-bottom: 8px;
 }
 
+li#currentUser{
+  font-weight: bold;
+  color: black;
+}
+
 ol{
   font-size: 25px;
   color: #C7D4E0;

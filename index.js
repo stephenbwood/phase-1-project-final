@@ -13942,6 +13942,7 @@ form.addEventListener('submit', e => {
     handleLogIn(username, password)
     if(isLoggedIn){
     showStudyLists()
+    updateLeaderboard()
     }
   }
 })
@@ -14214,6 +14215,9 @@ function updateLeaderboard(){
     const entry = document.createElement('li');
     entry.className = 'leaderboardEntry';
     entry.textContent = `${person}`
+    if (person === loggedInUser){
+      entry.id = 'currentUser'
+    }
     const dotsNeeded = (25-entry.textContent.length)*2
     let a = 0
     while (a < dotsNeeded){
