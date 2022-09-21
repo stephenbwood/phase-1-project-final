@@ -1,0 +1,12 @@
+{
+  "name": "phase-1-project-final",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx json-server --watch ./src/db.json --static ./src/"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "json-server": "^0.17.0"
+  }
+}
