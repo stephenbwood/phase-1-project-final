@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 
-<html lang = 'en'>
-  <head>
-    <link type="text/css" rel="stylesheet" href="style.css">
-    <title>Chinese Study Game</title>
-  </head>
-  <body>
-    <div id="createAccount">
-      <form>
-        <p id="signInHeading">Sign in</p>
-        <input id="username" type="text" name="username" placeholder="username">
-        <input id="password" type="password" name="password" placeholder="password">
-        <input type="submit" name="submit">
-        <p id="haveAccount">No account? Sign up here!</p>
-      </form>
+<html lang='en'>
+<head>
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <title>Chinese Study Game</title>
+</head>
+<body>
+<div id="createAccount">
+  <form>
+    <p id="signInHeading">Sign in</p>
+    <input id="username" type="text" name="username" placeholder="username">
+    <input id="password" type="password" name="password" placeholder="password">
+    <input type="submit" name="submit">
+    <p id="haveAccount">No account? Sign up here!</p>
+  </form>
+</div>
+<div id="userInfo">
+  <h3 id='welcome'>Welcome, guest</h3>
+  <h4 id='points'></h4>
+</div>
+<div id="homepage">
+  <h1>Let's learn Chinese!<br>
+    我们一起学中文吧！</h1>
+  <h2 id="chooseList" style="display: none;">Choose a list to study</h2>
+  <div id="studyListContainer">
+  </div>
+  <div id='block1'>
+    <form id="newListForm">
+      <h3>Enter list info</h3>
+      <input id="listName" name="listName" placeholder="Name of list"><br>
+      <textarea id="listItems" name="listItems" placeholder="List characters to study"></textarea><br>
+      <button id="cancel">Cancel</button>
+      <input id="submitNewList" type="submit">
+    </form>
+    <div id="game">
     </div>
-    <div id="userInfo">
-      <h3 id = 'welcome'>Welcome, guest</h3>
-      <h4 id = 'points'></h4>
-    </div>
-    <div id="homepage">
-      <h1>Let's learn Chinese!<br>
-        我们一起学中文吧！</h1>
-      <h2 id="chooseList" style="display: none;">Choose a list to study</h2>
-      <div id="studyListContainer">
-      </div>
-      <div id = 'block1'>
-        <form id="newListForm">
-          <h3>Enter list info</h3>
-          <input id="listName" name="listName" placeholder="Name of list"><br>
-          <textarea id="listItems" name="listItems" placeholder="List characters to study"></textarea><br>
-          <button id="cancel">Cancel</button>
-          <input id="submitNewList" type="submit">
-        </form>
-      <div id="game">
-      </div>
-      </div>
-      <div id="block2">
-        <h2 id="leaderboardHeading">Leaderboard</h2>
-        <ol id="leaderboard">
-        </ol>
-      </div>
-    </div>
-    <script src="index.js"></script>
-  </body>
+  </div>
+  <div id="block2">
+    <h2 id="leaderboardHeading">Leaderboard</h2>
+    <ol id="leaderboard">
+    </ol>
+  </div>
+</div>
+<script src="index.js"></script>
+</body>
 </html>
