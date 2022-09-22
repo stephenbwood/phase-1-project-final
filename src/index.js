@@ -13897,17 +13897,17 @@ function handleCreateUser(username, password){
 //Changes form between create account and log in
 function handleLogInForm(){
   if (hasAccount === false){
-    document.getElementById('signInHeading').textContent = 'Sign in';
+    document.getElementById('sign_in__heading').textContent = 'Sign in';
     hasAccount=true;
     haveAccountLink.textContent = 'No account? Sign up here!';
   }else{
-    document.getElementById('signInHeading').textContent = 'Create an account';
+    document.getElementById('sign_in__heading').textContent = 'Create an account';
     hasAccount=false;
     haveAccountLink.textContent = 'Already have an account? Sign in here.';
   } 
 }
 
-const haveAccountLink = document.getElementById('haveAccount')
+const haveAccountLink = document.getElementById('sign_in__account_toggle_link')
 
 haveAccountLink.addEventListener('click', () => handleLogInForm());
 
@@ -13916,10 +13916,10 @@ function handleLogIn(username, password){
   if (users[`${username}`] !== undefined && users[`${username}`].password === password){
     isLoggedIn = true;
     loggedInUser = username;
-    document.getElementById('createAccount').style.display = 'none'
-    document.getElementById('welcome').textContent = `Welcome, ${username}`
-    document.getElementById('points').textContent = `You have ${users[username].points} points`
-    document.getElementById('chooseList').style.display = 'inline'
+    document.getElementById('sign_in').style.display = 'none'
+    document.getElementById('user_info__welcome').textContent = `Welcome, ${username}`
+    document.getElementById('user_info__points').textContent = `You have ${users[username].points} points`
+    document.getElementById('study_list_selector').style.display = 'inline'
   }else{
     alert('This username and password combination is not recognized. Please try again or create an account.')
   }
@@ -13930,8 +13930,8 @@ const form = document.querySelector('form');
 
 //passes username password to createUser or logIn depending on isLoggedIn status
 form.addEventListener('submit', e => {
-  const username = document.getElementById('username').value.toLowerCase();
-  const password = document.getElementById('password').value;
+  const username = document.getElementById('sign_in__username').value.toLowerCase();
+  const password = document.getElementById('sign_in__password').value;
 
 
   if (hasAccount === false){
@@ -13951,7 +13951,7 @@ form.addEventListener('submit', e => {
 function showStudyLists(){
   const userListsLocation = users[loggedInUser].userStudyLists
   const builtInListsLocation = builtInStudyLists
-  const studyListContainer = document.getElementById('studyListContainer')
+  const studyListContainer = document.getElementById('study_list_container')
 
   studyListContainer.innerHTML = ''
 
@@ -13961,7 +13961,7 @@ function showStudyLists(){
 }
 
 function createButtons(location){
-  const studyListContainer = document.getElementById('studyListContainer')
+  const studyListContainer = document.getElementById('study_list_container')
 
   for (const list in location){
     const target = location[list]
@@ -13969,7 +13969,7 @@ function createButtons(location){
     listButton.className = 'listButton'; 
     listButton.textContent = `${list}`;
     listButton.addEventListener('click', () => {
-      document.getElementById('newListForm').style.display = 'none'
+      document.getElementById('create_list__form').style.display = 'none'
       gameWindow.style.display = 'inline'
       unplayed = [...target]
       correct = 0
@@ -13988,22 +13988,22 @@ function createNewListButton(){
   listButton.addEventListener('click', () => {
     gameWindow.innerHTML = ''
     gameWindow.style.display = 'none'
-    document.getElementById('newListForm').style.display = 'inline'
+    document.getElementById('create_list__form').style.display = 'inline'
   })
-  document.getElementById('studyListContainer').appendChild(listButton);
+  document.getElementById('study_list_container').appendChild(listButton);
 }
 
-document.getElementById('cancel').addEventListener('click', (e)=> {
+document.getElementById('create_list__cancel').addEventListener('click', (e)=> {
   e.preventDefault();
-  document.getElementById('newListForm').style.display = 'none'
+  document.getElementById('create_list__form').style.display = 'none'
 })
 
 //creates new list on submit updating local user object and db.json object
-const newListForm = document.getElementById('newListForm')
+const newListForm = document.getElementById('create_list__form')
 newListForm.addEventListener('submit', e => {
   e.preventDefault();
-  const newListName = document.getElementById('listName').value;
-  const newListItems = document.getElementById('listItems').value.replaceAll(',', '').replaceAll(' ', '').replaceAll('\n', '');
+  const newListName = document.getElementById('create_list__name').value;
+  const newListItems = document.getElementById('create_list__items').value.replaceAll(',', '').replaceAll(' ', '').replaceAll('\n', '');
   const newListPath = users[loggedInUser].userStudyLists
 
   newListPath[newListName] = []
@@ -14033,8 +14033,8 @@ function setUpReadings(list){
     .then(res =>{
       updateDb(loggedInUser);
       newListForm.reset();
-      document.getElementById('newListForm').style.display = 'none'
-      document.getElementById('studyListContainer').innerHTML = ''
+      document.getElementById('create_list__form').style.display = 'none'
+      document.getElementById('study_list_container').innerHTML = ''
       showStudyLists(loggedInUser)
 
     })
@@ -14169,7 +14169,7 @@ function updatePoints(){
   updateDb(loggedInUser)
   updateLeaderboard()
 
-  document.getElementById('points').textContent = `You have ${users[loggedInUser].points} points`
+  document.getElementById('user_info__points').textContent = `You have ${users[loggedInUser].points} points`
 }
 
 function updateDb(){
@@ -14184,7 +14184,7 @@ function updateDb(){
 }
  
 function updateLeaderboard(){
-  document.getElementById('leaderboard').innerHTML = ''
+  document.getElementById('leaderboard__list').innerHTML = ''
   const userArray = [...Object.keys(users)]
   const scoreOrder = []
   scoreOrder.push(userArray[0])
@@ -14226,10 +14226,10 @@ function updateLeaderboard(){
     }
     entry.textContent += `${users[person].points}`
 
-    document.getElementById('leaderboard').appendChild(entry)}
+    document.getElementById('leaderboard__list').appendChild(entry)}
   }
   if (loggedInUser){
-    document.getElementById('points').textContent = `You have ${users[loggedInUser].points} points`
+    document.getElementById('user_info__points').textContent = `You have ${users[loggedInUser].points} points`
   }
 }
 

@@ -1,8 +1,8 @@
-body{
+body {
   background-color: #C7D4E0;
 }
 
-div#homepage >h1{
+#homepage > h1 {
   z-index: 1;
   font-size: 50px;
   position: absolute;
@@ -10,21 +10,21 @@ div#homepage >h1{
   top: 100px;
 }
 
-p#haveAccount:hover{
+#sign_in__account_toggle_link:hover {
   text-decoration: underline;
 }
 
-form{
+form {
   z-index: 3;
   color: #DDDDDF;
   width: 50%;
   padding: 10px;
-  background-color: #376262CC ;
+  background-color: #376262CC;
   border-radius: 5px;
   color: white;
 }
 
-div#userInfo{
+#user_info {
   width: 100%;
   height: 100px;
   text-align: right;
@@ -38,25 +38,17 @@ div#userInfo{
   padding: 0px;
 }
 
-#welcome, #points{
+#user_info__welcome, #user_info__points {
   position: relative;
   right: 100px;
   top: 20px;
 }
 
-h3, h4{
+h3, h4 {
   margin: 5px;
 }
 
-form#newListForm{
-  background-image: linear-gradient(to right, #376262CC 30%, #C7D4E0);
-  color: #DDDDDF;
-  position: absolute;
-  top: 450px;
-  display: none;
-}
-
-#card{
+#card {
   position: absolute;
   bottom: 10px;
   left: 20px;
@@ -72,21 +64,72 @@ form#newListForm{
   justify-content: space-around;
 }
 
-h1.target{
+h1.target {
   text-align: center;
   font-size: 150px;
   margin: 0px;
   width: 100%;
 }
 
-
-div#block1{
+#create_list {
   display: inline;
   top: 450px;
   width: 50%;
 }
 
-div#block2{
+#create_list__form {
+  background-image: linear-gradient(to right, #376262CC 30%, #C7D4E0);
+  color: #DDDDDF;
+  position: absolute;
+  top: 450px;
+  display: none;
+}
+
+#study_list_selector {
+  position: absolute;
+  top: 220px;
+  text-align: left;
+  background-color: #C7D4E0;
+}
+
+#study_list_container {
+  position: absolute;
+  top: 300px;
+  width: 50%;
+  background-color: #C7D4E0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+li {
+  text-align: justify;
+  margin-bottom: 8px;
+}
+
+#currentUser {
+  font-weight: bold;
+  color: black;
+}
+
+ol {
+  font-size: 25px;
+  color: #C7D4E0;
+}
+
+button {
+  background-color: #DDDDDF;
+  color: black;
+  border-style: double;
+  border-radius: 5px;
+}
+
+button.listButton {
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+#leaderboard {
   color: #DDDDDF;
   position: absolute;
   float: right;
@@ -100,65 +143,16 @@ div#block2{
   z-index: -2;
 }
 
-h2#chooseList{
-  position: absolute;
-  top: 200px;
+#leaderboard__heading {
+  text-align: center;
 }
 
-div#studyListContainer{
-  position: absolute;
-  top: 300px;
-  width: 50%;
-  background-color: #C7D4E0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-li{
-  text-align: justify;
-  margin-bottom: 8px;
-}
-
-li#currentUser{
-  font-weight: bold;
-  color: black;
-}
-
-ol{
-  font-size: 25px;
-  color: #C7D4E0;
-}
-
-button{
-  background-color: #DDDDDF;
-  color: black;
-  border-style: double;
-  border-radius: 5px;
-}
-
-button.listButton{
-  margin-right: 20px;
-  margin-bottom: 10px;
-}
-
-h2#chooseList{
-  position: absolute;
-  top: 220px;
-  text-align: left;
-  background-color: #C7D4E0;
-}
-
-h2#leaderboardHeading{
-  text-align:center;
-}
-
-div#nextDiv{
+#nextDiv {
   display: flex;
   justify-content: space-around;
 }
 
-p#correctness{
+#correctness {
   background-color: #1B2020;
   width: 100%;
   text-align: center;
